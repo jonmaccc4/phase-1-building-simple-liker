@@ -4,7 +4,36 @@ const FULL_HEART = '♥'
 
 // Your JavaScript code goes here!
 
+document.getElementById("modal").classList.add("hidden");
 
+const hearts = document.querySelectorAll(".like-glyph");
+hearts.forEach(heart => {
+    heart.addEventListener("click", () => {
+        // Call the mimicServerCall function
+        mimicServerCall()
+        .then(() => {
+            // Toggle between full and empty heart
+            if (heart.innerText === "♡") {
+                heart.innerText = "♥";
+                heart.classList.add("activated-heart");
+            } else {
+                heart.innerText = "♡";
+                heart.classList.remove("activated-heart");
+            }
+        })
+        .catch((error) => {
+            // Display error modal
+            const errorModal = document.getElementById("modal");
+            errorModal.classList.remove("hidden");
+            errorModal.querySelector("#modal-message").innerText = error;
+            
+            // Hide error modal after 3 seconds
+            setTimeout(() => {
+                errorModal.classList.add("hidden");
+            }, 3000);
+        });
+    });
+});
 
 
 //------------------------------------------------------------------------------
